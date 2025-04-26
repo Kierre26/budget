@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     description: { type: DataTypes.STRING, allowNull: true },
     // Must be Income or Expense, not null
     type: {
-      type: DataTypes.ENUM('Income', 'Expense'),
+      type: DataTypes.ENUM('income', 'expense'),
       allowNull: false
     }
   });
