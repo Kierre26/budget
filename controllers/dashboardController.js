@@ -1,4 +1,3 @@
-// controllers/dashboardController.js
 const { Transaction, Budget, Category } = require('../models');
 const { Op } = require('sequelize');
 
