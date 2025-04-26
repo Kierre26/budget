@@ -7,7 +7,7 @@ const { sequelize } = require('./models'); // Import sequelize instance
 const methodOverride = require('method-override'); // Import middleware to support Update/Delete
 const path = require('path');
 
-// 1) Handlebars setup
+// Handlebars setup
 const hbs = exphbs.create({
   extname: 'hbs',
   layoutsDir: path.join(__dirname, 'views', 'layouts'),
@@ -82,7 +82,7 @@ const budgetsRouter = require('./routes/budgets');
 app.use('/budgets', budgetsRouter);
 
 // Start the server after syncing models
-sequelize.sync().then(() => {
+sequelize.sync({ force: true }).then(() => {
   app.listen(3000, () =>
     console.log('Server listening on http://localhost:3000')
   );
