@@ -1,0 +1,42 @@
+<h1 class="my-4">New Budget</h1>
+{{!-- Card wrapper --}}
+<div class="card shadow-sm mb-5">
+  {{!-- Card content area --}}
+  <div class="card-body">
+    <form action="/budgets" method="POST">
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input name="title" class="form-control" required>
+      </div>
+      {{!-- Limit input group --}}
+      <div class="mb-3">
+        <label class="form-label">Limit</label>
+        <input
+          name="limit"
+          type="number"
+          min="0.01"
+          step="0.01"
+          class="form-control"
+          required
+        >
+      </div>
+      {{!-- Start date group --}}
+      <div class="mb-3">
+        <label class="form-label">Start Date</label>
+        <input name="start" type="date" class="form-control" required>
+      </div>
+      {{!-- End date group --}}
+      <div class="mb-3">
+        <label class="form-label">End Date</label>
+        <input name="end" type="date" class="form-control" required>
+      </div>
+      {{!-- Button alignment --}}
+      <div class="d-flex justify-content-end">
+        {{!-- SUbmit button --}}
+        <button class="btn btn-success">Save</button>
+        {{!-- Cancel button --}}
+        <a href="/dashboard" class="btn btn-link ms-3">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

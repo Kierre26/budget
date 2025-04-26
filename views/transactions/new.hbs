@@ -1,0 +1,72 @@
+<h1 class="my-4">New Transaction</h1>
+<div class="card shadow-sm mb-5">
+  <div class="card-body">
+    {{!-- Form to create a new transaction --}}
+    <form action="/transactions" method="POST">
+      {{!-- Date input, required --}}
+      <div class="mb-3">
+        <label class="form-label">Date</label>
+        <input
+          name="transaction_date"
+          type="date"
+          class="form-control"
+          required
+        />
+      </div>
+      {{!-- Category, required --}}
+      <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select
+          name="categoryId"
+          class="form-select"
+          required
+        >
+          {{!-- Loop over each category --}}
+          {{#each categories}}
+            <option value="{{this.id}}">{{this.name}}</option>
+          {{/each}}
+        </select>
+      </div>
+      {{!-- Transaction type, required --}}
+      <div class="mb-3">
+        <label class="form-label">Type</label>
+        <select
+          name="type"
+          class="form-select"
+          required
+        >
+          <option value="income">Income</option>
+          <option value="expense">Expense</option>
+        </select>
+      </div>
+      {{!-- Amount, required, minimum 0.01 cents, required --}}
+      <div class="mb-3">
+        <label class="form-label">Amount</label>
+        <input
+          name="amount"
+          type="number"
+          min="0.01"
+          step="0.01"
+          class="form-control"
+          required
+        />
+      </div>
+      {{!-- Description --}}
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <input
+          name="description"
+          type="text"
+          class="form-control"
+        />
+      </div>
+      {{!-- Align buttons --}}
+      <div class="d-flex justify-content-end">
+        {{!-- Submit save button --}}
+        <button class="btn btn-success">Save</button>
+        {{!-- Submit cancel button --}}
+        <a href="/dashboard" class="btn btn-link ms-3">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

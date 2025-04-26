@@ -1,0 +1,64 @@
+<h1 class="my-4">Edit Budget</h1>
+{{!-- Card wrapper --}}
+<div class="card shadow-sm mb-5">
+  {{!-- Card content --}}
+  <div class="card-body">
+    {{!-- Form submission to update --}}
+    <form action="/budgets/{{budget.id}}?_method=PUT" method="POST">
+      {{!-- Group spacing --}}
+      <div class="mb-3">
+        <label class="form-label">Title</label>
+        <input
+          name="title"
+          class="form-control"
+          {{!-- Fill existing title and required--}}
+          value="{{budget.title}}"
+          required
+        >
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Limit</label>
+        <input
+          name="limit"
+          type="number"
+          step="1"
+          class="form-control"
+          {{!-- Fill existing limit and required --}}
+          value="{{budget.limit}}"
+          required
+        >
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Start Date</label>
+        <input
+          name="start"
+          {{!-- Date picker --}}
+          type="date" 
+          class="form-control"
+          {{!-- Fill existing start date and required --}}
+          value="{{budget.start}}"
+          required
+        >
+      </div>
+      <div class="mb-3">
+        <label class="form-label">End Date</label>
+        <input
+          name="end"
+          {{!-- Date picker --}}
+          type="date"
+          class="form-control"
+          {{!-- Fill existing end date and required --}}
+          value="{{budget.end}}"
+          required
+        >
+      </div>
+      {{!-- Button alignment --}}
+      <div class="d-flex justify-content-end">
+        {{!-- Submit button --}}
+        <button class="btn btn-primary">Update</button>
+        {{!-- Cancel button --}}
+        <a href="/dashboard" class="btn btn-link ms-3">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

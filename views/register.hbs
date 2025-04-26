@@ -1,0 +1,57 @@
+{{!-- Center row and responsive column --}}
+<div class="row justify-content-center">
+  <div class="col-md-6 col-lg-4">
+    <div class="card shadow-sm mt-5">
+      <div class="card-body">
+        <h2 class="card-title mb-4 text-center">Register</h2>
+        {{!-- Show error alert if present --}}
+        {{#if error}}
+          <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
+        {{!-- Registration form --}}
+        <form action="/register" method="POST">
+          {{!-- Username, required --}}
+          <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="form-control"
+              required
+            >
+          </div>
+          {{!-- Email, required --}}
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control"
+              required
+            >
+          </div>
+          {{!-- Password, minimum length 6, hidden, required --}}
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              minlength="6"
+              class="form-control"
+              required
+            >
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            {{!-- Submit register button --}}
+            <button class="btn btn-primary">Register</button>
+            {{!-- Redirect to login button --}}
+            <a href="/login" class="btn btn-link">Login</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

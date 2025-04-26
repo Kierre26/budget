@@ -1,0 +1,89 @@
+<h1 class="my-4">Transactions</h1>
+<div class="mb-3 text-end">
+  {{!-- Button for new transactions --}}
+  <a href="/transactions/new" class="btn btn-primary">
+    <i class="bi bi-plus-lg"></i> 
+  </a>
+</div>
+
+{{!-- table for medium and up screens --}}
+<div class="table-responsive d-none d-md-block">
+  <table class="table table-hover shadow-sm">
+    <thead class="table-light">
+      <tr>
+        <th>Date</th>
+        <th>Category</th>
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Description</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{!-- Loop over transactions --}}
+      {{#each transactions}}
+        <tr>
+          {{!-- Format the date --}}
+          <td>{{dateFormat this.transaction_date}}</td>
+          <td>{{this.Category.name}}</td>
+          <td>{{this.type}}</td>
+          <td>
+            {{!-- Red text if an expense and green text if an income --}}
+            <span class="{{#if (eq this.type 'income')}}text-success{{else}}text-danger{{/if}}">
+              ${{this.amount}}
+            </span>
+          </td>
+          <td>{{this.description}}</td>
+          <td>
+            {{!-- Edit and Delete buttons --}}
+            <div class="btn-group btn-group-sm">
+              <a href="/transactions/{{this.id}}/edit" class="btn btn-outline-secondary">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <form action="/transactions/{{this.id}}?_method=DELETE" method="POST">
+                <button class="btn btn-outline-danger">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>
+
+{{!-- cards for small screens --}}
+<div class="d-block d-md-none">
+  {{!-- Loop over transactions --}}
+  {{#each transactions}}
+    <div class="card mb-3 shadow-sm">
+      <div class="card-body">
+        <div class="d-flex justify-content-between">
+          <div>
+            <strong>{{dateFormat this.transaction_date}}</strong><br>
+            {{this.Category.name}} — 
+            {{!-- Red text if an expense and green text if an income --}}
+            <span class="{{#if (eq this.type 'income')}}text-success{{else}}text-danger{{/if}}">
+              ${{this.amount}}
+            </span>
+          </div>
+          {{!-- Edit and Delete buttons --}}
+          <div class="btn-group btn-group-sm">
+            <a href="/transactions/{{this.id}}/edit" class="btn btn-outline-secondary">
+              <i class="bi bi-pencil"></i>
+            </a>
+            <form action="/transactions/{{this.id}}?_method=DELETE" method="POST">
+              <button class="btn btn-outline-danger">
+                <i class="bi bi-trash"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        {{#if this.description}}
+          <small class="text-muted">{{this.description}}</small>
+        {{/if}}
+      </div>
+    </div>
+  {{/each}}
+</div>

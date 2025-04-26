@@ -1,0 +1,60 @@
+<h1 class="my-4">Edit Transaction</h1>
+{{!-- Card wrapper --}}
+<div class="card shadow-sm mb-5">
+  {{!-- Card content area --}}
+  <div class="card-body">
+    {{!-- Form submits to update --}}
+    <form action="/transactions/{{transaction.id}}?_method=PUT" method="POST">
+      {{!-- Date --}}
+      <div class="mb-3">
+        <label class="form-label">Date</label>
+        {{!-- Fill with existing date --}}
+        <input name="transaction_date" type="date" class="form-control" value="{{transaction.transaction_date}}"
+          required>
+      </div>
+      {{!-- Category --}}
+      <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select name="categoryId" class="form-select" required>
+          {{!-- Loop over category list --}}
+          {{#each categories}}
+          {{!-- Mark current as selected category --}}
+          <option value="{{this.id}}" {{selected this.id ../transaction.categoryId}}>
+            {{this.name}}
+          </option>
+          {{/each}}
+        </select>
+      </div>
+      {{!-- Transaction type --}}
+      <div class="mb-3">
+        <label class="form-label">Type</label>
+        {{!-- Must select one of the options --}}
+        <select name="type" class="form-select" required>
+          {{!-- Mark as selected if matches --}}
+          <option value="income" {{selected "income" transaction.type}}>Income</option>
+          <option value="expense" {{selected "expense" transaction.type}}>Expense</option>
+        </select>
+      </div>
+      {{!-- Amount --}}
+      <div class="mb-3">
+        <label class="form-label">Amount</label>
+        {{!-- Number input, minimum one cent, allow cents, fill existing amount, required field --}}
+        <input name="amount" type="number" min="0.01" step="0.01" class="form-control" value="{{transaction.amount}}"
+          required>
+      </div>
+      {{!-- Description, optional --}}
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        {{!-- Fill existing description --}}
+        <input name="description" class="form-control" value="{{transaction.description}}">
+      </div>
+      {{!-- Align buttons to the right --}}
+      <div class="d-flex justify-content-end">
+        {{!-- Submit update button --}}
+        <button class="btn btn-primary">Update</button>
+        {{!-- Submit cancel button --}}
+        <a href="/dashboard" class="btn btn-link ms-3">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>

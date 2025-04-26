@@ -1,0 +1,158 @@
+<h1 class="my-4">Your Dashboard</h1>
+
+<div class="row gy-4">
+  <!-- Transactions -->
+  <div class="col-lg-6">
+    {{!-- Half width on large screens --}}
+    <div class="card shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h5 class="card-title mb-0">
+          {{!-- Directs to transaction page --}}
+          <a href="/transactions" class="text-decoration-none text-dark">
+            Recent Transactions
+          </a>
+        </h5>
+          {{!-- Button to new transactions form --}}
+        <a href="/transactions/new" class="btn btn-sm btn-primary">
+          <i class="bi bi-plus-lg"></i>
+        </a>
+      </div>
+      <ul class="list-group list-group-flush">
+        {{!-- If there are transactions, loop through each --}}
+        {{#if transactions.length}}
+          {{#each transactions}}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{!-- List item with a flex layout --}}
+              <div>
+                {{dateFormat this.transaction_date}} — {{this.Category.name}} —
+                {{!-- Red text if an expense and green text if income --}}
+                <span class="{{#if (eq this.type 'income')}}text-success{{else}}text-danger{{/if}}">
+                  ${{this.amount}}
+                </span>
+              </div>
+              {{!-- Edit button --}}
+              <div class="btn-group btn-group-sm">
+                <a href="/transactions/{{this.id}}/edit" class="btn btn-outline-secondary">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                {{!-- Delete button --}}
+                <form action="/transactions/{{this.id}}?_method=DELETE" method="POST">
+                  <button class="btn btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                  </button>
+                </form>
+              </div>
+            </li>
+          {{/each}}
+        {{else}}
+          {{!-- If no transactions --}}
+          <li class="list-group-item text-center">
+            No transactions yet.
+          </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+
+  {{!-- Budgets  --}}
+  <div class="col-lg-6">
+    <div class="card shadow-sm">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        {{!-- Header with add button --}}
+        <h5 class="card-title mb-0">
+          {{!-- Links to budgets page --}}
+          <a href="/budgets" class="text-decoration-none text-dark">
+            Your Budgets
+          </a>
+        </h5>
+        <a href="/budgets/new" class="btn btn-sm btn-primary">
+          <i class="bi bi-plus-lg"></i>
+        </a>
+      </div>
+
+      <ul class="list-group list-group-flush">
+        {{#if budgets.length}}
+          {{!-- If budgets exists, loop through each --}}
+          {{#each budgets}}
+            <li class="list-group-item d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-center">
+                <div>
+                  <strong>{{this.title}}</strong>: Limit ${{this.limit}} — Remaining ${{this.remaining}}
+                </div>
+                <div class="btn-group btn-group-sm">
+                  {{!-- Add new budget button --}}
+                  <a href="/budgets/{{this.id}}/edit" class="btn btn-outline-secondary">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                  {{!-- Delete budget button --}}
+                  <form action="/budgets/{{this.id}}?_method=DELETE" method="POST">
+                    <button class="btn btn-outline-danger">
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+              {{!-- Progress bar --}}
+              <div class="w-100 mt-2">
+                <div class="progress" style="height: 1rem;">
+                  <div
+                    class="progress-bar {{#if (gt this.usedPerc 100)}}bg-danger{{/if}}"
+                    role="progressbar"
+                    style="width: {{this.usedPerc}}%;"
+                  >
+                    {{!-- Percent used --}}
+                    {{this.usedPerc}}%
+                  </div>
+                </div>
+              </div>
+            </li>
+          {{/each}}
+        {{else}}
+          {{!-- No budgets listed --}}
+          <li class="list-group-item text-center">
+            No budgets yet.
+          </li>
+        {{/if}}
+      </ul>
+    </div>
+  </div>
+</div>
+
+{{!-- Summary Chart --}}
+<h2 class="mt-5">Summary</h2>
+<div class="card shadow-sm mb-5">
+  <div class="card-body">
+    <canvas id="summaryChart" style="max-height:300px;"></canvas>
+  </div>
+</div>
+{{!-- Chart.js --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  new Chart(
+    // Initialize pie chart
+    document.getElementById('summaryChart'),
+    {
+      type: 'pie',
+      data: {
+        labels: ['Income', 'Expenses'],
+        datasets: [{
+          data: [
+            {{totalIncome}},
+            {{totalExpense}}
+          ],
+          backgroundColor: [
+            'rgba(75,192,192,0.5)',  // Green
+            'rgba(255,99,132,0.5)'   // Red
+          ]
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: { position: 'bottom' }
+        }
+      }
+    }
+  );
+</script>
+
