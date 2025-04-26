@@ -82,7 +82,7 @@ const budgetsRouter = require('./routes/budgets');
 app.use('/budgets', budgetsRouter);
 
 // Start the server after syncing models
-sequelize.sync({ force: true }).then(() => {
+sequelize.sync().then(() => {
   app.listen(3000, () =>
     console.log('Server listening on http://localhost:3000')
   );
